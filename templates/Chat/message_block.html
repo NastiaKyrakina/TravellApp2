@@ -1,32 +1,37 @@
-<div class="block message-block mb-2 shadow rounded" id="message-{{ message.id }}">
-
-    <div class="row {% if message.user == request.user %} flex-row-reverse {% endif %}">
-        <div class="col-2 px-3">
-            <div class="message-img">
+<div class="message-block {% ifequal message.user request.user %}user-owner{% endifequal %}"
+     id="message-{{ message.id }}">
+    <div class="{% if message.user == request.user %}{% endif %}">
+        <div class="main-message-content">
+            <div class="img-block ">
                 {% if message.user.userinfo.big_photo %}
-                    <img src="{{ message.user.userinfo.big_photo.url }}" class="img-fluid rounded px-1">
+                    <img src="{{ message.user.userinfo.big_photo.url }}" class="">
                 {% else %}
                     {% load staticfiles %}
-                    <img src="{% static 'images/DefaultAvatar.png' %}" class="img-fluid rounded px-1">
+                    <img src="{% static 'images/DefaultAvatar.png' %}" class="">
+                {% endif %}
+                {% if message.user != request.user %}
+                    <a class="member-name"
+                       href="{% url 'home' message.user.id %}">
+                        <small class=""> @{{ message.user.username }}</small>
+                    </a>
                 {% endif %}
             </div>
+            {% if message.text %}
+                <div class="message-bubble">
+                    <p> {{ message.text }} </p>
+                </div>
+            {% endif %}
+            {% if message.user == request.user or request.user.id == message.chat.creator %}
+                <button class="delete-mess-button"
+                        id="delete-mess-{{ message.id }}" hidden>
+                    <i class="fas fa-trash-alt"></i></button>
+            {% endif %}
+
         </div>
-        <div class="col-8 message px-0 row">
-            <div class="col-12">
-                {% if message.user == request.user or request.user.id == message.chat.creator %}
-                    <button class="delete-mess-button btn btn-sm btn-danger px-1 py-0" id="delete-mess-{{ message.id }}"
-                            hidden>
-                        <small>Delete</small>
-                    </button>
-                {% endif %}
-                <a class="{% if message.user == request.user %} float-right {% else %} float-left {% endif %}"
-                   href="{% url 'home' message.user.id %}">
-                    <strong>{{ message.user.first_name }} {{ message.user.last_name }}</strong>
-                    <small class="text-muted"> @{{ message.user.username }}</small>
-                </a>
-            </div>
-            <p class="col-12"> {{ message.text }} </p>
-            <div class="col-12">
+
+        <div class="">
+
+            <div class="">
                 {% if message.has_files %}
                     <div class="message_img">
                         {% for image in message.get_images %}
@@ -35,7 +40,7 @@
                     </div>
                     <div class="message_video">
                         {% for video in message.get_video %}
-                            <div class="embed-responsive embed-responsive-16by9">
+                            <div class="">
                                 <video controls="controls" class="embed-responsive-item">
                                     <source src="{{ video.file.url }}">
                                 </video>
@@ -54,13 +59,16 @@
                             <a download="file.file.url" class="mx-2">{{ file.file.url }}</a>
                         {% endfor %}
                     </div>
+                    <div class="message_map">
+                    </div>
                 {% endif %}
             </div>
-            <div class="col-12">
-                <small class="{% if message.user == request.user %} float-right {% else %} float-left {% endif %}"> {{ message.date| date:"d-m-Y H:i" }} </small>
+            <!--
+            <div class="">
+                <small class="{% if message.user == request.user %}{% else %}{% endif %}"> {{ message.date| date:"d-m-Y H:i" }} </small>
             </div>
-
+            -->
         </div>
-    </div>
 
+    </div>
 </div>

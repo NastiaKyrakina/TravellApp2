@@ -41,8 +41,7 @@ $(document).ready(function () {
                 },
 
                 error: function (xhr, errmsg, err) {
-                    // Show an error
-                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                    console.log(xhr.status + ": " + xhr.responseText);
                 }
             });
         } else {
@@ -84,7 +83,7 @@ $(document).ready(function () {
 
             error: function (xhr, errmsg, err) {
                 // Show an error
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                console.log(xhr.status + ": " + xhr.responseText);
             }
         });
 

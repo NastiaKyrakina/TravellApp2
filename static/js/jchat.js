@@ -24,7 +24,7 @@ function LoadUsers() {
     let dataList = $("#members_list");
     $('input#id_members').on('input', function () {
         $('.members-error').empty();
-        q = $(this).val();
+        let q = $(this).val();
         $.ajax({
             type: 'GET',
             async: true,
@@ -332,7 +332,7 @@ function EditChat(chat_slug) {
 
         error: function (xhr, errmsg, err) {
             // Show an error
-            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            console.log(xhr.status + ": " + xhr.responseText);
         }
     });
 

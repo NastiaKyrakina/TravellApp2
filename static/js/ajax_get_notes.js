@@ -27,8 +27,8 @@ function LoadFile() {
                 else {
                     console.log('data');
                     //додавання нового поста
-                    $('.user-posts').prepend(data)
-                    //очщення форми
+                    $('.user-posts').prepend(data);
+                    //очищення форми
                     $('.form-post-add')[0].reset();
                     $('.file-label').empty();
                 }
@@ -107,14 +107,14 @@ $(document).ready(function () {
                 }, // data sent with the delete request
                 success: function (json) {
                     // hide the post
-                    $('#note_element-' + post_primary_key).hide(); // hide the post on success
+                    $('#note_element-' + post_primary_key).hide(); // скрывает пост в случае успеха
                     console.log(json['msg'].toString());
 
                 },
 
                 error: function (xhr, errmsg, err) {
-                    // Show an error
-                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+
+                    console.log(xhr.status + ": " + xhr.responseText);
                 }
             });
         } else {

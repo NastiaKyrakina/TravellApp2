@@ -63,7 +63,7 @@
 
         chatSocket.onopen = function (event) {
 
-            hash = location.hash.replace("#", "");
+            let hash = location.hash.replace("#", "");
             location.hash = "";
             if (hash) {
                 chatSocket.send(

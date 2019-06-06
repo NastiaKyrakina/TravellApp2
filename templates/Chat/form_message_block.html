@@ -1,12 +1,11 @@
 {% load i18n %}
-<form class="block shadow rounded mb-2" method="post" id="form-message" enctype='multipart/form-data'
+<form class="block shadow rounded mb-2 pt-2" method="post" id="form-message" enctype='multipart/form-data'
       action="{% url 'create_message' %}">
     {% csrf_token %}
 
     {% for error in errors_type %}
         {{ error }} <br/>
     {% endfor %}
-
 
     {{ form_message.non_field_errors }}
 
@@ -50,6 +49,12 @@
                     {{ form_attach.files_file }}
                     <label class="m-0 pl-3 bg-primary" for="id_files">{% trans 'Another file' %}</label>
                 </div>
+                <div class="file-upload">
+                    <!--поле форми AttachmentForm-->
+                    {{ form_attach.files }}
+                    {{ form_attach.files_file }}
+                    <label class="m-0 pl-3 bg-primary" for="id_map">{% trans 'Map' %}</label>
+                </div>
             </div>
 
             <div>
@@ -57,6 +62,7 @@
                 <label class="file-label file-list-video w-100 m-0"></label>
                 <label class="file-label file-list-audio w-100 m-0"></label>
                 <label class="file-label file-list-file w-100 m-0"></label>
+                <label class="file-label file-list-map w-100 m-0"></label>
             </div>
 
         </div>

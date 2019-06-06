@@ -1,40 +1,35 @@
 {% load i18n %}
 <div class="Chat" id="{{ chat.slug }}">
-
-    <div class="header justify-content-end block shadow rounded mb-2">
-        <h3 class="pl-2">{{ chat.name }}</h3>
-        {% if creator %}
-            <button class="mr-1 btn btn-primary btn-sm" id="add-member-{{ chat.slug }}">
+    <div class="chat-header">
+        <h3 class="">{{ chat_title }}</h3>
+        {% if chat.is_multi_chat and creator %}
+            <button class="chat-button" id="add-member-{{ chat.slug }}">
                 {% trans 'Add members' %}
             </button>
         {% endif %}
 
-        {% if chat.is_multi_chat %}
-            <button class="mr-1 btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user"></i>
-                {% trans 'Users' %}
-            </button>
-            <div class="dropdown-menu p-0">
-                {% for member in chat.members %}
-                    <p><a class="text-muted" href="{% url 'home' member.user.id %}">@{{ member.user.username }} </a></p>
-                {% endfor %}
-            </div>
-        {% endif %}
-        <div class="col-12">
-            <div class="add-member-block">
-            </div>
-
+        <div class="">
+            {% if chat.is_multi_chat %}
+                <button class="chat-button dropdown-toggle" type="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                    {% trans 'Users' %}
+                </button>
+                <div class="dropdown-menu p-0">
+                    {% for member in chat.members %}
+                        <p><a class="text-muted" href="{% url 'home' member.user.id %}">@{{ member.user.username }} </a>
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
-
-
     </div>
 
-    <div class="scroll-area">
+    <div class="messages-block">
         {% if messages %}
-            <div class="d-flex justify-content-center block shadow rounded mb-2">
+            <div class="centered">
                 <button type="button"
-                        class="load_href_1 btn btn-primary btn-sm">{% trans 'Load prevision messages' %}</button>
+                        class="load_href_1">{% trans 'Load prevision messages' %}</button>
             </div>
 
         {% endif %}

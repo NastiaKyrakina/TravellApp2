@@ -9,7 +9,6 @@ $(document).ready(function () {
                 $('<img src="' + e.target.result + '" class="img-fluid m-1">').appendTo('#image-prev');
             };
         })(image);
-        // Read in the image file as a data URL.
         reader.readAsDataURL(image);
     });
 });
