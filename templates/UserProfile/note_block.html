@@ -1,35 +1,35 @@
-<div class="note" id="note_element-{{ note.pk }}">
+<div class="note block" id="note_element-{{ note.pk }}">
 
 
-    <div class="note-header block row align-items-center">
+    <div class="note-header mb-2" style="overflow: auto">
         <!-- User info (left) -->
-        <div class="note-userinfo col-4 p-0">
+        <div class="note-userinfo">
             <a href="#">
-                <!-- test -->
                 {% if user.userinfo.big_photo %}
                     <img class="avatar-small" src="{{ user.userinfo.big_photo.url }}" class="img-fluid">
                 {% else %}
                     {% load staticfiles %}
                     <img class="avatar-small" src="{% static 'images/DefaultAvatar.png' %}" class="img-fluid">
                 {% endif %}
-                <span class="name mx-2"><strong>{{ user.username }}</strong></span>
+                <span class="name mx-2"><strong>{{ user.first_name }} {{ user.last_name }} </strong><small
+                        class="text-secondary">@{{ user.username }}</small></span>
             </a>
         </div>
 
         <!-- Post locate (right) -->
 
-        <div class="note-locate col-8">
+        <div class="note-interaction p-1">
             {% if request.user == user %}
-            <button type="button" class="delete-element btn btn-danger ml-2" id="delete-element-{{ note.pk }}"><i
+                <button type="button" class="delete-element btn btn-danger ml-1" id="delete-element-{{ note.pk }}"><i
                     class="fas fa-trash-alt"></i></button>
-            <button type="button" class="btn btn-warning ml-2" id="edit-element-{{ note.pk }}"><i
+                <button type="button" class="btn btn-warning ml-1" id="edit-element-{{ note.pk }}"><i
                     class="fas fa-edit"></i></button>
             {% endif %}
 
             {% if note.is_bound %}
-
+                {# Тут карты, нужно все поменять #}
                 <button id="note-button-{{ note.pk }}" data-target="#note-modal-{{ note.pk }}" type="button"
-                        class="btn btn-primary ml-2" data-toggle="modal">
+                        class="btn btn-primary ml-1" data-toggle="modal">
                     <i class="fas fa-map-marker-alt"></i> Locate
                 </button>
 
@@ -49,13 +49,15 @@
                         </div>
                     </div>
                 </div>
+
             {% endif %}
         </div>
+        {# note-interaction #}
+
 
     </div> <!-- note-header -->
-
-
-    <div class="note-content block p-0">
+    <hr class="horizontal-line">
+    <div class="note-content p-0">
         <p class="note-text mx-1 mb-1">{{ note.text }}</p>
 
         <div class="note-image">
@@ -82,19 +84,17 @@
             {% endfor %}
         </div>
 
-        <div class="note-file">
+        <div class="note-file mx-2">
             {% for file in note.get_files %}
-                <a href="file.file.url" download class="mx-2">{{ file.file.url }}</a>
+                <a href="{{ file.file.url }}" download>{{ file.file.name }}</a>
+                <small class="text-secondary">[{{ file.file.size }} byte]</small>
             {% endfor %}
         </div>
 
-        <div class="note-footer row align-items-center">
-            <div class="note-time col-6 ">
-                <!-- test -->
-                <p class="note_date text-muted mx-2 my-0">
-                    <small>{{ note.date_public| date:"d-m-Y H:i" }}</small>
-                </p>
-            </div>
+        <div class="note-footer">
+            <p class="note_date text-muted mx-2 my-0 text-right">
+                <small>{{ note.date_public| date:"d-m-Y H:i" }}</small>
+            </p>
         </div>
     </div> <!-- note-content -->
 

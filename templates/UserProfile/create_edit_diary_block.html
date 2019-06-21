@@ -1,10 +1,9 @@
 {% load i18n %}
-<form class="diary-form form-group col-lg-8 col-sm-12" method="post" enctype="multipart/form-data">
+<form class="block diary-form form-group col-lg-8 col-12 px-2" method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
-
-    <div class="diary-edit-header block block-header">
-        <h4 class="pl-3 mb-1">
+    <div class="diary-edit-header">
+        <h4 class="pl-2">
             {% if is_creating %}
                 {% trans 'New diary' %}
             {% else %}
@@ -13,10 +12,11 @@
         </h4>
     </div> <!-- diary-edit-header -->
 
-    <div class="diary-edit-body block p-3">
+    <hr class="horizontal-line my-2">
 
+    <div class="diary-edit-body">
         {% if current_diary %}
-            <div class="alert alert-warning pl-2 p-0">
+            <div class="alert alert-warning px-2 p-0">
                 <small>
                 {% blocktrans %}
                     You have the active diary now. If you create new diary, status of current diary will be change on
@@ -52,10 +52,10 @@
             </div>
 
 
-            <div class="col-5 file-upload col-3 m-2">
+            <div class="col-6 file-upload">
                 {{ form_diary.photo }}
                 {{ form_diary.photo_file }}
-                <label class="float-right btn m-0 btn-warning" for="id_photo">{% trans 'Set preview' %}</label>
+                <label class="btn btn-warning" for="id_photo">{% trans 'Set preview' %}</label>
             </div>
 
             <div class="col-12">
@@ -65,7 +65,6 @@
                     </div>
                 {% endfor %}
             </div>
-
         </div>
 
         <div class="d-flex justify-content-center">
@@ -78,7 +77,9 @@
 
     </div>
 
-    <div class="diary-edit-footer block block-footer d-flex justify-content-center">
+    <hr class="horizontal-line my-2">
+
+    <div class="diary-edit-footer d-flex justify-content-center">
         {% if is_creating %}
             <input type="submit" class="btn btn-primary py-1" value="{% trans 'Create new diary' %}"/>
         {% else %}

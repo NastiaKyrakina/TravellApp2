@@ -189,3 +189,26 @@ class Rate(models.Model):
             aggregate(models.Avg('value'))
         self.house.rating = rate_val['value__avg']
         self.house.save()
+
+
+class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete='Cascade')
+    house = models.ForeignKey(House, on_delete='Cascade')
+    start = models.TextField(max_length=60)
+    end = models.TextField(max_length=60)
+    people = models.PositiveIntegerField(default=1)
+    comment = models.TextField(max_length=300, blank=True)
+    phone_num = models.CharField(max_length=12,
+                                 blank=True)
+
+    def __str__(self):
+        return self.user.username + ' | ' + self.house.title
+
+
+class Advertising(models.Model):
+    client = models.TextField(max_length=60)
+    title = models.ForeignKey(House, on_delete='Cascade')
+    href = models.TextField(max_length=400)
+    photo = models.ImageField(upload_to='advertising/photo/', blank=True)
+    start = models.DateTimeField(auto_now=True)
+    end = models.DateTimeField()

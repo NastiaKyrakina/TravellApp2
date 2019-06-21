@@ -5,45 +5,44 @@
 {% block head %} {% trans 'User Login' %}{% endblock %}
 
 {% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="col-12 col-md-5 block">
 
-    <div class="row justify-content-center">
-
-        <form method="post" class="col-5 form-group">
-
-            <div class="auth-header block block-header">
+            <form method="post">
                 <h4 class="pl-3 mb-1"> {% trans 'Login' %}</h4>
-            </div> <!-- auth-header -->
-
-            <div class="auth-body block p-3">
-                {% csrf_token %}
-                <label for="id_username">{% trans 'Username' %}</label>
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">@</div>
-                    </div>
-                    <input for="id_username" type="text" name="username" class="form-control"
-                           placeholder="{% trans 'Username' %}">
-                </div>
-
-                <label for="id_password">{% trans 'Password' %}</label>
-                <input for="id_password" type="password" name="password" class="form-control mb-2"
-                       placeholder="{% trans 'Password' %}">
-
-                {% if errors %}
-                    {% for error in errors %}
-                        <div class="alert alert-danger px-1 py-0" role="alert">
-                            {{ error }}
+                <hr class="horizontal-line my-2">
+                <div class="p-3">
+                    {% csrf_token %}
+                    <label for="id_username">{% trans 'Username' %}</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
                         </div>
-                    {% endfor %}
-                {% endif %}
+                        <input for="id_username" type="text" name="username" class="form-control"
+                               placeholder="{% trans 'Username' %}">
+                    </div>
 
-                <input type="hidden" name="next" value="/"/>
-            </div> <!-- auth-body -->
+                    <label for="id_password">{% trans 'Password' %}</label>
+                    <input for="id_password" type="password" name="password" class="form-control mb-2"
+                           placeholder="{% trans 'Password' %}">
 
-            <div class="auth-footer block block-footer d-flex justify-content-center">
-                <input type="submit" class="btn btn-primary py-1" value="{% trans 'login' %}"/>
-            </div> <!-- auth-footer -->
+                    {% if errors %}
+                        {% for error in errors %}
+                            <div class="alert alert-danger px-1 py-0" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
-        </form>
-    </div> <!-- row -->
+                    <input type="hidden" name="next" value="/"/>
+                </div> <!-- auth-body -->
+                <hr class="horizontal-line my-2">
+                <div class="d-flex justify-content-center my-1">
+                    <input type="submit" class="btn btn-primary" value="{% trans 'login' %}"/>
+                </div> <!-- auth-footer -->
+
+            </form>
+        </div> <!-- row -->
+    </div>
+
 {% endblock %}

@@ -1,9 +1,10 @@
 {% block content %}
     {% load i18n %}
     <!-- Status block -->
-    <div class="status">
-        <h5 class="block block-header">{% trans 'Status' %}</h5>
-        <p class="block block-footer">
+    <div class="status block">
+        <h5 class="block-header">{% trans 'Status' %}</h5>
+        <hr class="horizontal-line">
+        <p class="block-footer mt-1">
             {{ user.userinfo.info }}
         <p>
     </div>

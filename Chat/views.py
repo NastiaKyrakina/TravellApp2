@@ -20,6 +20,7 @@ def add_members(request, chat_slug):
     chat = get_object_or_404(Chat, slug=chat_slug)
     if not chat.is_creator(request.user):
         return Http404
+        # fix this
 
     if request.method == 'POST':
         members_form = ChatMember(request.POST)
@@ -189,7 +190,7 @@ def chat_block(request, chat_slug):
     chat = get_object_or_404(Chat, slug=chat_slug)
 
     try:
-        chat.member_set.get(user=user)
+        member = chat.member_set.get(user=user)
     except Chat.DoesNotExist:
         return Http404
 
@@ -200,15 +201,16 @@ def chat_block(request, chat_slug):
         return render(request, 'Chat/messages_list.html', {'messages': messages})
 
     messages = Message.objects.filter(chat=chat).order_by('-date')[0:10]
-
+    chat_title = member.user_chat_title()
     context = {
         'chat': chat,
         'messages': messages,
-        'members_form': ChatMember()
+        'members_form': ChatMember(),
+        'chat_title': chat_title,
+
     }
     if chat.is_creator(user):
         context['creator'] = True
-
     return render(request, 'Chat/chat_block.html', context)
 
 

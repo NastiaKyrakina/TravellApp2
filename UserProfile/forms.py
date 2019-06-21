@@ -5,6 +5,40 @@ from UserProfile.models import *
 
 from datetime import datetime
 
+
+class VerificationSendForm(forms.Form):
+    message = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={
+            'id': 'id_message',
+            'class': 'form-control mb-3',
+            'maxlength': 1000,
+            'rows': False,
+            'cols': False,
+        })
+    )
+    image1 = forms.ImageField(
+        label='image1',
+        required=False,
+        widget=forms.FileInput(attrs={
+            'id': 'inputGroupImage1',
+            'accept': 'image/*',
+            'class': 'custom-file-input',
+        }),
+    )
+    image2 = forms.ImageField(
+        label='image2',
+        required=False,
+        widget=forms.FileInput(attrs={
+            'id': 'inputGroupImage2',
+            'accept': 'image/*',
+            'class': 'custom-file-input',
+        }),
+    )
+
+
+
+
 class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
@@ -123,17 +157,13 @@ class MarkerForm(forms.ModelForm):
     class Meta:
         model = Marker
         fields = ['lat', 'lng']
-
-        # initial = {
-        #   'lat' : 52.357971,
-        #   'lng' : -6.51675
-        # }
-
         widgets = {
             'lat': forms.TextInput(attrs={
                 'class': 'form-control mb-1',
+                'required': False,
             }),
             'lng': forms.TextInput(attrs={
                 'class': 'form-control mb-1',
+                'required': False,
             })
         }

@@ -60,7 +60,6 @@ def registration_page(request):
 @login_required
 def information_page(request):
     """информация о ползователе"""
-
     try:
         user_info = UserInfo.objects.get(user=request.user)
     except UserInfo.DoesNotExist:
@@ -71,6 +70,8 @@ def information_page(request):
             form = InformationForm(request.POST, request.FILES, instance=user_info)
         else:
             form = InformationForm(request.POST, request.FILES)
+        print(form.is_valid())
+        print(form.errors)
         if form.is_valid():
             form.save(request.user)
             return HttpResponseRedirect('/user/%s/' % request.user.pk)

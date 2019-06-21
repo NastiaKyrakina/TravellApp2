@@ -1,0 +1,39 @@
+{% load i18n %}
+<div class="block px-3">
+    <div class="card-title d-block">
+        <h3 class="mb-0"><strong>Booking by <a
+                href="{% url 'home' book.user.id %}">{{ book.user.first_name }} {{ book.user.last_name }}</a>.</strong>
+        </h3>
+    </div>
+    <hr class="horizontal-line my-2">
+    <div class="card-body p-1 row col-12">
+        <div class="avatar col-4">
+            {% if book.user.userinfo.big_photo %}
+                <img src="{{ book.user.userinfo.big_photo.url }}"
+                     class="card-img card-img pr-1 col-12 w-100 h-100 align-self-center">
+            {% else %}
+                {% load staticfiles %}
+                <img src="{% static 'images/DefaultAvatar.png' %}"
+                     class="card-img card-img pr-1 col-12 h-100 align-self-center">
+            {% endif %}
+        </div>
+        <div class="col-12 col-lg-8">
+            <p class="m-1"><strong>{% trans 'From' %}:</strong> {{ book.start }}</p>
+            <p class="m-1"><strong>{% trans 'To' %}:</strong> {{ book.end }}</p>
+            <p class="m-1"><strong>{% trans 'People' %}:</strong> {{ book.people }}</p>
+            <p class="m-1"><strong>{% trans 'Phone' %}:</strong> +380 {{ book.phone_num }}</p></p>
+        </div>
+        <div class="col-12 col-lg-12 mt-2">
+            <p class="m-1"><strong>{% trans 'Comment' %}:</strong> {{ book.comment }}</p>
+        </div>
+    </div>
+    <hr class="horizontal-line my-2">
+    <div class="d-flex justify-content-between">
+        <a href="" class="btn btn-info ml-3">{% trans "Contact user" %}</a>
+        <div>
+            <a href="" class="btn btn-success ml-1">{% trans "Confirm" %}</a>
+            <a href="" class="btn btn-danger ml-1">{% trans "Annul" %}</a>
+        </div>
+
+    </div>
+</div>

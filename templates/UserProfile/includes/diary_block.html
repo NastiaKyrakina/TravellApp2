@@ -1,12 +1,11 @@
-<div class="diary" id="diary_element-{{ diary.pk }}">
+<div class="block diary" id="diary_element-{{ diary.pk }}">
     {% load i18n %}
 
-    <div class="diary-header block-header block">
+    <div class="diary-header">
         <h5 class="pl-1 m-0"> {{ diary.title }} </h5>
     </div> <!-- note-header -->
-
-
-    <div class="diary-content block">
+    <hr class="horizontal-line my-2">
+    <div class="diary-content">
         <div class="d-flex justify-content-center">
             <div class="image">
                 {% if diary.photo %}
@@ -31,8 +30,8 @@
             {% endif %}
         </p>
     </div> <!-- diary-content -->
-
-    <div class="diary-footer block-footer block d-flex justify-content-center">
+    <hr class="horizontal-line my-2">
+    <div class="diary-footer d-flex justify-content-center">
         <a class="btn btn-primary py-1" href="{% url 'user_profile.diary_page' diary.id %}">{% trans 'Open' %}</a>
     </div> <!-- diary-footer -->
 

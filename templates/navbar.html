@@ -1,0 +1,96 @@
+{% load i18n %}
+{% block nav %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary position-fixed w-100">
+        <!-- Logo -->
+        <a class="navbar-brand ml-2" href="{% url 'about_page' %}">
+            <i class="fas fa-map-marked-alt"></i> Travel App
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse ml-auto" id="navbarContent">
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' request.user.id %}">{% trans 'Home page' %}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        {% if request.user.has_diary %}
+                            <a class="nav-link" href="{{ user.get_diary.get_absolute_url }}">{% trans 'Diary' %}</a>
+                        {% else %}
+                            <a class="nav-link"
+                               href="{% url 'user_profile.diary_create' %}">{% trans 'New diary' %}</a>
+                        {% endif %}
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'chat.page' %}">{% trans 'Chats' %}</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Menu' %}</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'add_house' %}">{% trans 'New advert' %}</a>
+                            <a class="dropdown-item"
+                               href="{% url 'users_house' request.user.id %}">{% trans 'User houses' %}</a>
+                            <a class="dropdown-item" href="{% url 'house.control' %}">{% trans 'Admin page' %}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'search_house' %}">{% trans 'Search house' %}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item"
+                               href="{% url 'verification.send_page' %}">{% trans 'Verification' %}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'payment' %}">{% trans 'Payment' %}</a>
+                        </div>
+                    </li>
+
+                </ul>
+            {% endif %}
+
+            <form id="main-form-search" class="form-inline ml-lg-3 my-2 my-lg-0" method="get" action="/house/">
+                <input class="form-control mr-sm-2" placeholder="{% trans 'Search house' %}" type="text" name="text"
+                       id="search-text" value={{ request.GET.text }}>
+                <button class="btn btn-light my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
+            </form>
+
+            <ul class="navbar-nav ml-auto mr-lg-3">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reg/logout/">{% trans 'Logout' %}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reg/login/">{% trans 'Login' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reg/registration/">{% trans 'Sign in' %}</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            {% load i18n %}
+            <form class="form-inline my-2 my-lg-0" id='change-leng' action="{% url 'set_language' %}"
+                  method="post">{% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}"/>
+                <select class="custom-select" name="language" onchange="$('#change-leng').submit();">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_available_languages as LANGUAGES %}
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% for language in languages %}
+                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}
+                                selected="selected"{% endif %}>
+                            {{ language.code }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+
+        </div> <!-- navbar-collapse -->
+    </nav>
+{% endblock %}

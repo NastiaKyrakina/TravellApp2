@@ -49,7 +49,6 @@ $(document).ready(function () {
 
         $("input#id_country").val(id_country);
             code = $('#phone-code').text();
-
             return;
     });
 

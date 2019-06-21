@@ -5,113 +5,111 @@
 {% block head %}{% trans 'User Registration' %}{% endblock %}
 
 {% block content %}
-
-    <div class="row justify-content-center">
-        <form method="post" class="col-5 form-group reg-form" action="">
-
-            <div class="auth-header block block-header">
+    <div class="d-flex justify-content-center">
+        <div class="col-12 col-md-5 d-flex justify-content-center block">
+            <form method="post" class="reg-form">
                 <h4 class="pl-3 mb-1">{% trans 'Registration' %}</h4>
-            </div> <!-- auth-header -->
+                <hr class="horizontal-line my-2">
+                <div class="p-3">
+                    {% csrf_token %}
 
-            <div class="auth-body block p-3">
-                {% csrf_token %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger pl-2 p-0">
+                            <small>
+                                { error }}
+                            </small>
+                        </div>
+                    {% endfor %}
+                    <div class="row">
+                        <div class="col-5 pr-1">
+                            <label for="id_first_name">{% trans 'First name' %}</label>
+                            {{ form.first_name }}
+                        </div>
 
-                {% for error in form.non_field_errors %}
-                    <div class="alert alert-danger pl-2 p-0">
-                        <small>
-                            { error }}
-                        </small>
+                        <div class="col-7 pl-1">
+                            <label for="id_last_name">{% trans 'Last name' %}</label>
+                            {{ form.last_name }}
+                        </div>
                     </div>
-                {% endfor %}
-                <div class="row">
-                    <div class="col-5 pr-1">
-                        <label for="id_first_name">{% trans 'First name' %}</label>
-                        {{ form.first_name }}
+                    <div class="row">
+                        <div class="col-5 pr-1">
+                            {% for error in form.first_name.errors %}
+                                <div class="alert alert-danger pl-2 p-0">
+                                    <small>
+                                        {{ error }}
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-7 pl-1">
+                            {% for error in form.last_name.errors %}
+                                <div class="alert alert-danger pl-2 p-0">
+                                    <small>
+                                        {{ error }}
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
 
-                    <div class="col-7 pl-1">
-                        <label for="id_last_name">{% trans 'Last name' %}</label>
-                        {{ form.last_name }}
+
+                    <label for="id_username">{% trans 'Username' %}</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
+                        </div>
+                        {{ form.username }}
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-5 pr-1">
-                        {% for error in form.first_name.errors %}
-                            <div class="alert alert-danger pl-2 p-0">
-                                <small>
-                                    {{ error }}
-                                </small>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="col-7 pl-1">
-                        {% for error in form.last_name.errors %}
-                            <div class="alert alert-danger pl-2 p-0">
-                                <small>
-                                    {{ error }}
-                                </small>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
+                    {% for error in form.username.errors %}
+                        <div class="alert alert-danger pl-2 p-0">
+                            <small>
+                                {{ error }}
+                            </small>
+                        </div>
+                    {% endfor %}
 
 
-                <label for="id_username">{% trans 'Username' %}</label>
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">@</div>
-                    </div>
-                    {{ form.username }}
-                </div>
-                {% for error in form.username.errors %}
-                    <div class="alert alert-danger pl-2 p-0">
-                        <small>
-                            {{ error }}
-                        </small>
-                </div>
-                {% endfor %}
+                    <label for="id_email">{% trans 'Email' %}</label>
+                    {{ form.email }}
+                    {% for error in form.email.errors %}
+                        <div class="alert alert-danger pl-2 p-0">
+                            <small>
+                                {{ error }}
+                            </small>
+                        </div>
+                    {% endfor %}
 
 
-                <label for="id_email">{% trans 'Email' %}</label>
-                {{ form.email }}
-                {% for error in form.email.errors %}
-                    <div class="alert alert-danger pl-2 p-0">
-                        <small>
-                            {{ error }}
-                        </small>
-                    </div>
-                {% endfor %}
+                    <label for="id_password1">{% trans 'Password' %}</label>
+                    {{ form.password1 }}
+                    {% for error in form.password1.errors %}
+                        <div class="alert alert-danger pl-2 p-0">
+                            <small>
+                                {{ error }}
+                            </small>
+                        </div>
+                    {% endfor %}
 
+                    <label for="id_password2">{% trans 'Confirm password' %}</label>
+                    {{ form.password2 }}
+                    {% for error in form.password2.errors %}
+                        <div class="alert alert-danger pl-2 p-0">
+                            <small>
+                                {{ error }}
+                            </small>
+                        </div>
+                    {% endfor %}
 
-                <label for="id_password1">{% trans 'Password' %}</label>
-                {{ form.password1 }}
-                {% for error in form.password1.errors %}
-                    <div class="alert alert-danger pl-2 p-0">
-                        <small>
-                            {{ error }}
-                        </small>
-                    </div>
-                {% endfor %}
+                </div> <!-- auth-body -->
+                <hr class="horizontal-line my-2">
+                <div class="d-flex justify-content-center my-1">
+                    <input type="submit" class="btn btn-primary py-1" value="{% trans 'Sign in' %}"/>
+                </div> <!-- auth-footer -->
 
-                <label for="id_password2">{% trans 'Confirm password' %}</label>
-                {{ form.password2 }}
-                {% for error in form.password2.errors %}
-                    <div class="alert alert-danger pl-2 p-0">
-                        <small>
-                            {{ error }}
-                        </small>
-                    </div>
-                {% endfor %}
-
-            </div> <!-- auth-body -->
-
-            <div class="auth-footer block block-footer d-flex justify-content-center">
-                <input type="submit" class="btn btn-primary py-1" value="{% trans 'Sign in' %}"/>
-            </div> <!-- auth-footer -->
-
-        </form>
-    </div> <!-- row -->
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 {% block script %}

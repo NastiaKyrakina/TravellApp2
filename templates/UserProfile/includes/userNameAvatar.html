@@ -10,10 +10,10 @@
     <!-- Avatar -->
     <div class="avatar">
         {% if user.userinfo.big_photo %}
-            <img src="{{ user.userinfo.big_photo.url }}" class="img-fluid">
+            <img src="{{ user.userinfo.big_photo.url }}" class="img-fluid mx-auto d-block">
         {% else %}
             {% load staticfiles %}
-            <img src="{% static 'images/DefaultAvatar.png' %}" class="img-fluid">
+            <img src="{% static 'images/DefaultAvatar.png' %}" class="img-fluid mx-auto d-block">
         {% endif %}
     </div>
 

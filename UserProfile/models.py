@@ -29,8 +29,8 @@ class UserExt(User):
     def has_diary(self):
         return self.diary_set.all().exists()
 
-    def has_adv(self):
-        return self.house_set.all().exists()
+    # def has_adv(self):
+    #     return self.house_set.all().exists()
 
 
 class Country(models.Model):
@@ -53,6 +53,15 @@ class UserInfo(models.Model):
         (RENT_HOUSE, _('Rent a house')),
         (UNDF, _('Undefined')),
     )
+    VERIFIED = 'VR'
+    WAIT = 'WT'
+    REJECT = 'RJ'
+    STATUS_VRF = Choices(
+        (VERIFIED, _('Сhecked')),
+        (WAIT, _('Wait for check')),
+        (REJECT, _('Denied')),
+        (UNDF, _('Undefined')),
+    )
 
     user = models.OneToOneField(User,
                                 unique=True,
@@ -70,7 +79,9 @@ class UserInfo(models.Model):
                             blank=True)
     info = models.TextField(max_length=256,
                             blank=True)
-
+    virifield = models.CharField(max_length=2,
+                                 choices=STATUS_VRF,
+                                 default=UNDF)
     big_photo = models.ImageField(upload_to='user_photo/',
                                   blank=True)
 
@@ -80,6 +91,8 @@ class UserInfo(models.Model):
         else:
             return '/static/images/DefaultAvatar.png'
 
+    def __str__(self):
+        return self.user.last_name + ' ' + self.user.first_name
 
 class NoteManager(models.Manager):
 

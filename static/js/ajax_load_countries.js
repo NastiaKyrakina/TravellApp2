@@ -9,14 +9,12 @@ function set_country(status = '1') {
     let country;
     let country_id = $("input#id_country").val();
     if (country_id) {
-        country_option = $("#countries option[id=" + country_id + "]")
+        country_option = $("#countries option[id=" + country_id + "]");
         country = country_option.val();
         $("input#id_country").val(country);
-
         if (status == '2' && country_option.attr('code')) {
             $('#phone-code').text(country_option.attr('code'));
         }
-
     }
 }
 

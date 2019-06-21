@@ -126,7 +126,6 @@ $(document).ready(function () {
     $(".load_href_1").click(function () {
 
         var qr = $(".notes-list:last >:last-child .note_date small").text();
-        console.log(qr);
         $.ajax({
             type: 'GET',
             async: true,

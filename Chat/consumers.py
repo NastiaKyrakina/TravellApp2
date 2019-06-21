@@ -2,13 +2,14 @@
 from django.template.loader import render_to_string
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import JsonWebsocketConsumer
+from .models import Chat, Message, Member
+from datetime import datetime
 import json
 from .models import Chat, Message, Member
 from datetime import datetime
 
 class ChatConsumer1(JsonWebsocketConsumer):
     def connect(self):
-
         if self.scope['user'].is_anonymous:
             self.close()
         else:
@@ -100,9 +101,12 @@ class ChatConsumer1(JsonWebsocketConsumer):
     def send_chat(self, chat_slug, message, message_id=-1):
         print(self.chats)
         if chat_slug in self.chats:
-            print('111')
             chat = Chat.objects.get(slug=chat_slug)
             user = self.scope['user']
+            if message_id != -1:
+                print('111')
+                chat = Chat.objects.get(slug=chat_slug)
+                user = self.scope['user']
             if message_id != -1:
                 print('to')
                 new_message = Message.objects.get(id=message_id)

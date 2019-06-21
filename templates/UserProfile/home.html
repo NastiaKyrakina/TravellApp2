@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="left-column col-sm-12 col-md-3">
+        <div class="left-column col-md-12 col-lg-3">
 
             <!-- Name and avatar block -->
             {% include "UserProfile/includes/userNameAvatar.html" %}
@@ -16,13 +16,15 @@
             {% endif %}
 
         </div> <!-- left-column -->
-        <div class="main-column col-sm-12 col-md-6">
+        <div class="main-column col-md-12 col-lg-6">
 
             {% if request.user == user %}
             <!--Блок для створення постів завантажується через Ajax-->
-            <div class="create-node block block-header mb-2"></div>
+                <div class="create-node block"></div>
             {% else %}
-                <div class="block block-header mb-2"></div>
+                <div class="block">
+                    <h5 class="mb-1">@{{ user.username }}'s notes </h5>
+                </div>
             {% endif %}
 
             <div class="user-posts">
@@ -37,7 +39,7 @@
 
         </div> <!-- main-column -->
 
-        <div class="right-column col-sm-12 col-md-3">
+        <div class="right-column col-md-12 col-lg-3">
             {% include "UserProfile/includes/diaries_list.html" %}
         </div>
     </div> <!-- row -->

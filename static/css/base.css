@@ -33,6 +33,7 @@ input.UncorrectValue {
     font-weight: bold;
 }
 
+
 .sucs-show {
     display: none;
 }
@@ -45,4 +46,18 @@ input.UncorrectValue {
 .btn {
     word-wrap: break-word;
     overflow-x: hidden;
+}
+
+
+.new-message-popup {
+    background-color: #d5e082;
+    border-radius: 10px 0 0 10px;
+    padding: 5px 10px;
+    position: fixed;
+    right: 0;
+    top: 60px;
+}
+
+.new-message-popup i {
+    color: #004085;
 }

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}Payment page{% endblock %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-center">
+
+        <div class="block p-3">
+            <h2> {% trans 'Advertising banner' %}</h2>
+            <h4 class="font-weight-normal">
+                {% trans 'Before making a payment, specify the terms of cooperation with the administrator. ' %}<br>
+                Email: travelappservice@gmail.com
+            </h4>
+            <form class="pt-3" method="POST" action="https://www.liqpay.ua/api/3/checkout"
+                  accept-charset="utf-8">
+                <input type="hidden" name="data" value="{{ data }}"/>
+                <input type="hidden" name="signature" value="{{ signature }}"/>
+                <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png"/>
+            </form>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+
+    {% load staticfiles %}
+    {#  Script*  #}
+
+{% endblock %}

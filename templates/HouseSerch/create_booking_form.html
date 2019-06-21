@@ -1,0 +1,155 @@
+{% load i18n %}
+
+<div class="d-flex justify-content-center">
+    <form class="block booking-form form-group col-lg-12 col-md-12 px-2"
+          enctype="multipart/form-data"
+          id='booking-form'
+          action="{% url 'house.booking.create' %}" method="post">
+        {% csrf_token %}
+        <div class="booking-edit-header">
+            <h4 class="pl-3 mb-1">
+                {% if is_creating %}
+                    {% trans "Сreate" %}
+                {% else %}
+                    {% trans "Edit" %}
+                {% endif %}
+                {% trans 'Booking' %}
+            </h4>
+        </div> <!-- booking
+       -edit-header -->
+        <hr class="horizontal-line my-2">
+        <div class="booking-edit-body">
+            {% for error in form_booking.non_field_errors %}
+                <div class="alert alert-danger pl-2 p-0">
+                    <small>
+                        {{ error }}
+                    </small>
+                </div>
+            {% endfor %}
+            <div class="row">
+                <div class='col-sm-6'>
+
+                    {% for error in form_booking.start.errors %}
+                        <div class="alert alert-danger pl-2 p-0">
+                            <small>
+                                {{ error }}
+                            </small>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class='col-sm-6'>
+                    {% for error in form_booking.people.errors %}
+                        <div class="alert alert-danger pl-2 p-0">
+                            <small>
+                                {{ error }}
+                            </small>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class='col-md-6 col-sm-12'>
+                    <label class="pl- mb-0" for="id_people">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="pl-1 font-weight-bold">{% trans 'Select your period of stay' %}</span>
+                    </label>
+                    {{ form_booking.start }}
+                </div>
+                <div class='col-md-6 col-sm-12 mt-sm-4 mb-sm-4 mt-md-0 mb-md-0'>
+                    <label class="pl- mb-0" for="id_people">
+                        <i class="fas fa-users"></i>
+                        <span class="pl-1 font-weight-bold">{% trans 'People' %}</span>
+                    </label>
+                    {{ form_booking.people }}
+                    <div class="px-1 mt-3">
+                        <label for="{{ form_booking.phone_num.id_for_label }}">
+                            <i class="fas fa-phone"></i>
+                            <span class="pl-1 font-weight-bold">
+                            {% trans 'Phone number' %}
+                            </span>
+                        </label>
+                        (+<span id="phone-code">380</span>) {{ form_booking.phone_num }}
+                    </div>
+                    <div class="px-1 mt-3">
+                        <label for="{{ form_booking.phone_num.id_for_label }}">
+                            <i class="fas fa-comment-alt"></i>
+                            <span class="pl-1 font-weight-bold">
+                            {% trans 'Comment' %}
+                            </span>
+                        </label>
+                        {{ form_booking.comment }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="horizontal-line my-2">
+        <div class="booking
+       -edit-footer d-flex justify-content-end">
+            {% if is_creating %}
+                <input type="submit" class="btn btn-primary py-1 mr-2 btn-lg" value="{% trans 'Book' %}"/>
+            {% else %}
+                <input type="submit" class="btn btn-warning py-1" value="{% trans 'Save' %}"/>
+            {% endif %}
+        </div> <!-- booking
+       -edit-footer -->
+        {% for error in errors_type %}
+            {{ error }} <br/>
+        {% endfor %}
+    </form>
+</div>
+
+{% load staticfiles %}
+
+<script src="{% static 'date-time/js/datepicker.js' %}"></script>
+
+<!-- Include English language -->
+<script src="{% static 'date-time/js/i18n/datepicker.en.js' %}"></script>
+<script type="text/javascript">
+
+    // $('#datepickers-container').on('click', '')
+    {#console.log( $('[data-date="27"][data-month="6"][data-year="2019"]'));#}
+    {# $('[data-date="27"][data-month="5"][data-year="2019"]')#}
+    {#     .css('color', 'red');#}
+
+    var eventDates = [8, 12, 13, 14, 15, 22, 23],
+        $picker = $('.datepicker-here'),
+        $content = $('#custom-cells-events'),
+        sentences = ['ss', 'sss', 'ssss', 'ssss'];
+
+    $picker.datepicker({
+        language: 'en',
+        onRenderCell: function (date, cellType) {
+            var currentDate = date.getDate();
+            // Add extra element, if `eventDates` contains `currentDate`
+            if (cellType == 'day' && eventDates.indexOf(currentDate) != -1) {
+                let span = document.createElement('div');
+                span.classList.add('unactive');
+                span.innerText = currentDate;
+                return {
+                    html: span.outerHTML,
+                }
+            }
+        },
+        onActive: function () {
+            return true;
+        },
+
+        onSelect: function onSelect(fd, date) {
+
+            var title = '', content = '';
+            console.log(fd);
+            date = new Date(date);
+            // If date with event is selected, show it
+            if (date && eventDates.indexOf(date.getDate()) != -1) {
+                title = fd;
+                content = sentences[Math.floor(Math.random() * eventDates.length)];
+            }
+            $('strong', $content).html(title);
+            $('p', $content).html(content);
+        }
+    });
+
+
+</script>

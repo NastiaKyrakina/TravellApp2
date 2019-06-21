@@ -3,17 +3,13 @@
 {% block title %}{% trans 'User Information' %}{% endblock %}
 
 {% block content %}
-
     <div class="d-flex justify-content-center">
-        <form class="info-form col-8" enctype="multipart/form-data" method="post" action="">
-            {% csrf_token %}
-
-            {{ form.non_field_errors }}
-            <div class="info-header block block-header">
+        <div class="d-flex justify-content-center block">
+            <form class="info-form" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
                 <h4 class="pl-3 mb-1">{% trans 'User Information' %}</h4>
-            </div> <!-- auth-header -->
-
-            <div class="info-block block">
+                <hr class="horizontal-line my-2">
                 <div class="row d-flex align-items-center px-2">
                     <div class="col-4 pr-1">
                         {{ form.gender.errors }}
@@ -28,7 +24,6 @@
                         </div>
                         <!-- {{ form.gender }} -->
                     </div>
-
                     <div class="col-8 pl-1">
                         {{ form.status.errors }}
                         <div class="input-group mb-3">
@@ -40,8 +35,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row px-3 d-flex justify-content-between">
                     <div class="col-4 px-1">
                         <label for="{{ form.country.id_for_label }}">{% trans 'Country' %}</label>
@@ -73,8 +66,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="row px-3">
                     <div class="col-4 px-1">
                         <label for="{{ form.birthday.id_for_label }}">{% trans 'Birthday' %}</label>
@@ -89,14 +80,11 @@
                         {% trans "Please, enter a date between 01.01.1900 and today" %}
                     </small>
                 </div>
-
                 <div class="col-12 px-1">
                     {{ form.info.errors }}
                     <label for="{{ form.info.id_for_label }}">{% trans 'Info' %}</label>
                     {{ form.info }}
                 </div>
-
-
                 <div class="row">
                     <div class="col-3 file-upload col-3">
                         {{ form.big_photo }}
@@ -116,18 +104,15 @@
                     </div>
                     {{ form.big_photo.errors }}
                 </div>
-            </div>
+                <hr class="horizontal-line my-2">
+                <div class="d-flex justify-content-center my-1">
+                    <input class="btn btn-primary" type="submit" value="{% trans 'Submit' %}"/>
+                </div>
 
-            <div class="info-footer block block-footer d-flex justify-content-center">
-                <input class="btn btn-primary" type="submit" value="{% trans 'Submit' %}"/>
-            </div>
-
-        </form>
+            </form>
+        </div>
     </div>
-
 {% endblock %}
-
-
 
 {% block script %}
 

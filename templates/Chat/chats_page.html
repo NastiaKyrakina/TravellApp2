@@ -4,22 +4,23 @@
 
 {% block head %}{{ user.username }} | Chats{% endblock %}
 
+{% block external %}
+    {{ block.super }}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock %}
+
 {% block content %}
     {% load i18n %}
-
-    <div class="col-12">
-        <div class="row">
-            <div class="col-4">
-                <div class="row block shadow rounded">
-                    <div class="col-4 pr-1">
-                        <button class="btn btn-primary col-12" id="create-chat">{% trans 'New Chat' %}</button>
-                    </div>
-                    <div class="col-8 pl-1">
-                        <button class="btn btn-primary col-12"
+    <main>
+        <div class="chat-right-side">
+            <div class="chat-header">
+                <button class="chat-button" id="create-chat">{% trans 'New Chat' %}</button>
+                <button class="chat-button"
                                 id="create-conversation">{% trans 'New conversation' %}</button>
-                    </div>
-                </div>
-                <div class="chat-list">
+
+            </div>
+            <div class="chats-list">
                     {% for chat in chats %}
                         {% include 'Chat/chat_mini_block.html' %}
                     {% empty %}
@@ -27,12 +28,8 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-8 chat-container"></div>
-        </div>
-    </div>
-
-    <div class="">
-    </div>
+        <div class="chat-container"></div>
+    </main>
 
 {% endblock %}
 
@@ -45,6 +42,7 @@
     <script src="{% static '/js/load_file.js' %}" type="text/javascript"></script>
 
     <script src="{% static '/js/jchat.js' %}" type="text/javascript"></script>
+
 
     <script>
 
@@ -79,11 +77,13 @@
             var data = JSON.parse(message.data);
 
             if (data.join) {
-                console.log("Joining room " + data.join);
 
                 $(".chat-container").load('/chat/chats/' + data.join + '/', function () {
                     LoadMessages();
                     RequaerUsers();
+                    var d = $('.scrollable');
+                    var scrollTop = d.prop('scrollHeight') - d.prop('clientHeight');
+                    d.scrollTop(scrollTop);
                     $('.chat-title#block-' + data.join).closest('.new-message').removeClass("new-message");
 
                     $(".message-form").load('/chat/create_message/',
@@ -150,12 +150,11 @@
                 }
                 else {
                     if (data.message) {
-
-                        new_message = document.createElement('div');
+                        let new_message = document.createElement('div');
                         new_message.innerHTML = data.message;
 
                         if (data.user =={{ request.user.id }}) {
-                            new_message.className = 'owner-message';
+                            new_message.setAttribute("class", "user-owner");
                         }
 
                         $('#' + data.chat + " .content").append(new_message);
@@ -216,6 +215,5 @@
 
 
     </script>
-
 
 {% endblock %}

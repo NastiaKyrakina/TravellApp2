@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ user.username }} | Verification status{% endblock %}
+
+{% block content %}
+
+    <div class="block p-3">
+        {% if user.userinfo.virifield == UserStatus.WAIT %}
+            <h2 class="text-warning"><i class="far fa-pause-circle"></i> {% trans 'Pending Verification' %}</h2>
+            <h4 class="font-weight-normal">
+                {% trans 'Verification form sent. At the end of the verification of documents your status will change.' %}<br>
+                {% trans 'If you have questions, send an email to travelappservice@gmail.com' %}
+            </h4>
+        {% elif user.userinfo.virifield == UserStatus.REJECT %}
+            <h2 class="text-danger"><i class="far fa-times-circle"></i> {% trans 'Verification rejected.' %}</h2>
+            <h4 class="font-weight-normal">
+                {% trans 'Verification rejected.' %}<br>
+                {% trans 'If you have questions, send an email to travelappservice@gmail.com' %}
+            </h4>
+        {% elif user.userinfo.virifield == UserStatus.VERIFIED %}
+            <h2 class="text-info"><i class="fas fa-check-circle"></i> {% trans 'Verified' %}</h2>
+            <h4 class="font-weight-normal">
+                {% trans 'Verification successful.' %}<br>
+                {% trans 'If you have questions, send an email to travelappservice@gmail.com' %}
+            </h4>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    {% load staticfiles %}
+    {#  Script*  #}
+
+{% endblock %}

@@ -1,7 +1,8 @@
 function GetIdCountry() {
 
     const inp = $("input#id_country").val();
-    let opt = $("#countries option[value='" + inp + "']");
+    let opt = $(`#countries option[value='${inp}']`);
+    console.log(opt.attr('id'));
     return opt.attr('id');
 }
 
@@ -27,7 +28,6 @@ function TextAreaTrim() {
     $('textarea').on('input', function () {
         var text = $(this).val();
         text = text.replace(/^ */g, "");
-
         $(this).val(text.replace(/ +/g, " "));
 
     });

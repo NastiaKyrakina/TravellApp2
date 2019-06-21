@@ -59,6 +59,15 @@ MIDDLEWARE = [
 
 ]
 
+# Email send
+# https://docs.djangoproject.com/en/2.2/topics/email/
+
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'travelappservice@gmail.com'
+EMAIL_HOST_PASSWORD = 'dkrkmkurakinasedykh'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+
 ROOT_URLCONF = 'TravellApp.urls'
 
 TEMPLATES = [
@@ -170,3 +179,6 @@ STATICFILES_FINDERS = (
 )
 
 LOGIN_URL = '/reg/login/'
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')

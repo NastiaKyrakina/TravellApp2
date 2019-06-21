@@ -2,7 +2,8 @@ from django.urls import path
 from UserProfile import views
 
 urlpatterns = [
-
+    path('payment', views.payment_page, name='payment'),
+    path('verification/send', views.verification_send_page, name='verification.send_page'),
     path('diary/create/', views.create_diary, name='user_profile.diary_create'),
     path('diary/edit/<int:diary_id>/', views.edit_diary, name='user_profile.diary_edit'),
     path('diary/delete/', views.delete_diary, name='user_profile.diary_delete'),
@@ -19,8 +20,3 @@ urlpatterns = [
 ]
 
 
-""" path('<slug:user_name>', views.home),
-   path('login', views.login),
-   path('logout', views.logout),
-   path('registrations', views.registr),
-"""

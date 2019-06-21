@@ -1,15 +1,16 @@
 {% block content %}
     {% load i18n %}
     <!-- Information block -->
-    <div class="information-block">
-        <h5 class="block block-header">
+    <div class="information-block block">
+        <h5 class="block-header">
             {% if request.user == user %}
                 <a href="{% url 'info' %}">{% trans 'Information' %}</a>
             {% else %}
                 {% trans 'Information' %}
             {% endif %}
         </h5>
-        <div class="block block-footer">
+        <hr class="horizontal-line">
+        <div class="block-footer mt-1">
 
             {% if user.userinfo.status %}
                 <p><i class="fas fa-user-tag"></i> {% trans 'Status' %}: {{ user.userinfo.get_status_display }} </p>

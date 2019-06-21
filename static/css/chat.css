@@ -1,0 +1,255 @@
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+.centered {
+    text-align: center;
+}
+
+
+.chat-button {
+    border-radius: 5px;
+    padding: 0.3em 1em;
+    margin: 0.1em;
+
+    color: rgba(0, 117, 255, 0.82);
+    background-color: white;
+    border: 2px solid rgba(0, 117, 255, 0.82);
+    transition: color 200ms ease-in-out,
+    background-color 200ms ease-in-out;
+}
+
+.chat-button:hover {
+    background-color: rgba(0, 117, 255, 0.82);
+    color: white;
+    border: 2px solid white;
+}
+
+
+.chat-container {
+    flex: 3;
+    margin: 0 1.5em;
+}
+
+/*main content*/
+
+.messages-block {
+    background-color: white;
+}
+
+.main-message-content {
+    display: flex;
+    justify-content: left;
+    padding: 5px 0;
+}
+
+.message-block {
+    width: 100%;
+    max-width: 700px;
+    padding: 0 5px;
+    position: relative;
+}
+
+.message-bubble {
+    display: inline-block;
+
+
+    min-width: 0;
+
+    margin: 0 10px;
+    word-wrap: break-word;
+}
+
+.delete-mess-button {
+    position: absolute;
+    visibility: hidden;
+    left: 10px;
+    top: 0;
+}
+
+.message-block:hover .delete-mess-button {
+    visibility: visible;
+}
+
+.message-bubble p {
+    background-color: #d9e3d7;
+    border-radius: 10px 10px 10px 5px;
+    padding: 7px;
+}
+
+.user-owner .main-message-content {
+    justify-content: flex-end;
+}
+
+.user-owner .img-block {
+    display: none;
+}
+
+.user-owner p {
+    background-color: #3fa6ff;
+    color: white;
+}
+
+.load_href_1 {
+    border: none;
+    text-align: center;
+    background: none;
+    color: #005cbf;
+    font-size: 1.3em;
+}
+
+/*Chats list*/
+
+.chat-header {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 5px 5px 0 0;
+    padding: 10px 7px;
+    margin-bottom: 0.2em;
+    line-height: 0.9em;
+    height: 4em;
+}
+
+
+.chat-header h3 {
+    flex: 3;
+    text-align: center;
+
+}
+
+.chat-right-side {
+    flex: 2;
+    min-width: 200px;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.chat-right-side .chat-header button {
+    flex: 1 1 100px;
+    font-weight: bold;
+}
+
+
+.chats-list {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+
+.chat-title {
+    display: flex;
+    flex: 1 1 50px;
+    background-color: white;
+    border-radius: 2px;
+    margin: 0.1em 0;
+    padding: 0.4em;
+
+    position: relative;
+    transition: background-color 400ms ease;
+}
+
+.chat-title:hover {
+    background-color: rgba(191, 222, 236, 0.73);
+    border: 2px solid rgba(0, 117, 255, 0.82);
+}
+
+.img-block {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+
+.img-block img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.title-block {
+    flex: 3;
+    min-width: 0;
+    margin-left: 7px;
+}
+
+.button-block {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 10px;
+}
+
+.button-block button {
+    background-color: transparent;
+    border: none;
+    font-size: 1.3em;
+
+}
+
+.last-message {
+
+    color: rgba(0, 0, 0, 0.73);
+    padding: 5px;
+    margin: 1px;
+
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.delete-mess-button, .delete-button {
+    color: #c42800;
+}
+
+.edit-button {
+
+    color: #ffb400;
+}
+
+.member-name {
+    padding: 0 7px;
+    text-align: center;
+    border-radius: 3px;
+    background: #4e555b;
+    color: white;
+    position: absolute;
+    left: 0;
+    bottom: -1em;
+    visibility: hidden;
+}
+
+.img-block:hover .member-name {
+    visibility: visible;
+}
+
+/*attach*/
+
+.message_img {
+    margin: 2%;
+}
+
+.message_img img {
+    border-radius: 5%;
+}
+
+.new-msg {
+    background-color: #004085;
+    color: white;
+    border-radius: 10px;
+    padding: 0 2px;
+}
+
+.scrollable {
+    overflow: auto;
+    overflow-x: visible;
+    height: 60vh;
+}

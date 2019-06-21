@@ -1,9 +1,7 @@
 <div>
     {% if houses %}
         {% for house in houses %}
-            <div class="block col-12">
-                {% include "HouseSerch/includes/home_block.html" %}
-            </div>
+            {% include "HouseSerch/includes/home_block.html" %}
         {% endfor %}
 
     {% endif %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ house.title }}{% endblock %}
+{% block external %}
+    {{ block.super }}
+    {% load staticfiles %}
+    <link href="{% static 'js/chart/Chart.min.css' %}" rel="stylesheet" type="text/css">
+
+{% endblock %}
+{% block content %}
+    <div class="row d-flex justify-content-between">
+        <div class="col-4">
+            {% for house in houses %}
+                <div class="block" id="house-{{ house.id }}">
+                    {% if house.main_image %}
+                        <img src="{{ house.main_image }}" alt='house photo'
+                             class="d-inline-block p-1 card-img align-self-center rounded-1"/>
+                    {% else %}
+                        {% load staticfiles %}
+                        <img src="{% static 'images/DefaultHouse.png' %}"
+                             class="house-image card-img p-1 align-self-center rounded-1"/>
+                    {% endif %}
+                    <div class="">
+                        {{ house }}
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+        <div class="main-area col-8">
+            <div class="row justify-content-center h-100 align-content-center">
+                <div class="font-weight-bold center-inf">
+                    {% load staticfiles %}
+                    <img src="{% static 'images/DefaultHouse.png' %}"
+                         class="card-img p-1 align-self-center"/>
+                    {% if houses %}
+                        {% trans "Choose adverb for search" %}
+                    {% else %}
+                        {% trans "You have any adverb" %}
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% block script %}
+        {% load staticfiles %}
+        <script src="{% static '/js/house-admin/admin.js' %}"></script>
+        <script src="{% static '/js/chart/Chart.min.js' %}"></script>
+
+    {% endblock %}
+{% endblock %}

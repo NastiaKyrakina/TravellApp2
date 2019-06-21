@@ -3,10 +3,11 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonRespons
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
+from django.db.models import Q
 
 from UserProfile.models import UserExt, Country
-from .models import House, HousePhoto, MAX_USER_HOUSES
-from .form import HouseForm, PhotoForm, SearchHousesForm, RateForm
+from .models import House, HousePhoto, Booking, MAX_USER_HOUSES
+from .form import HouseForm, PhotoForm, SearchHousesForm, RateForm, BookingForm
 from Chat.forms import ChatMember
 from datetime import datetime
 from Lib import FileFormats, page_revisor
@@ -22,6 +23,8 @@ def rate_create(request):
         house = get_object_or_404(House, id=request.POST['house'])
         form_rate = RateForm(request.POST)
         if form_rate.is_valid():
+            print(user)
+            print(house)
             rate = form_rate.save(user, house)
             if request.is_ajax():
                 return render(request,
@@ -38,6 +41,30 @@ def rate_create(request):
         'form_rate': form_rate,
     })
 
+
+def booking_create(request):
+    user = UserExt.objects.get(pk=request.user.pk)
+
+    if request.method == 'POST' and 'house' in request.POST:
+        house = get_object_or_404(House, id=request.POST['house'])
+        form_booking = BookingForm(request.POST)
+        if form_booking.is_valid():
+            book = form_booking.save(user, house)
+            if request.is_ajax():
+                return render(request,
+                              'HouseSerch/create_booking_form.html',
+                              {
+                                  'book': book,
+                              }
+                              )
+            return HttpResponseRedirect('house/%s/' % house.pk)
+    else:
+        form_booking = BookingForm()
+
+    return render(request, 'HouseSerch/create_booking_form.html', {
+        'form_booking': form_booking,
+        'is_creating': True,
+    })
 
 def main_search(request):
     if 'text' in request.GET:
@@ -113,16 +140,60 @@ def house_page(request, house_id):
     type = house.HOUSE_TYPE[house.type]
     raiting = house.rate_set.aggregate(Avg('value'))
     contact_form = ChatMember(initial={'members': house.owner.username})
+
+    try:
+        book = Booking.objects.get(user=request.user.id)
+    except Booking.DoesNotExist:
+        book = ''
+
     data = {
         'type': type,
         'house': house,
         'is_owner': is_owner,
         'raiting': raiting['value__avg'],
         'members_form': contact_form,
+        'book': book
     }
     return render(request, 'HouseSerch/house_page.html', data)
 
 
+@login_required
+def house_admin(request, house_id):
+    house = House.objects.get(id=house_id)
+
+    rating = house.rate_set.filter(date_public__year=2018)
+    booking = house.booking_set.all().order_by('start')
+    rate_val = []
+    counter = 0
+    sum = 0
+    all = 0
+    for i in range(1, 13):
+        rate = rating.filter(date_public__month=str(i))
+        value = rate.aggregate(Avg('value'))
+        print(value['value__avg'])
+        count = rate.count()
+        if value['value__avg']:
+            sum = sum + value['value__avg']
+            counter = counter + count
+            all = sum / counter
+        rate_val.append(all)
+
+    return render(request,
+                  'HouseSerch/admin_house_page.html', {
+                      'house': house,
+                      'rating': rating,
+                      'rates_val': rate_val,
+                      'booking': booking,
+                  })
+
+
+@login_required
+def control_room(request):
+    houses = House.objects.filter(owner=request.user.pk)
+    return render(request,
+                  'HouseSerch/control_room.html', {
+                      'houses': houses,
+                  })
 @login_required
 def house_add_page(request):
     user = UserExt.objects.get(pk=request.user.pk)

@@ -6,7 +6,18 @@
 
 {% block content %}
 
-    {% include 'HouseSerch/create_edit_house_block.html' %}
+    {% if user.userinfo.virifield == user.userinfo.VERIFIED %}
+        {% include 'HouseSerch/create_edit_house_block.html' %}
+    {% endif %}
+    {% if user.userinfo.virifield == user.userinfo.WAIT %}
+        <h3>{% trans 'Your application is in processing. It will be checked within 24 hours from the time of withdrawal of the application.' %}</h3>
+    {% endif %}
+    {% if user.userinfo.virifield == user.userinfo.REJECT %}
+        <h3>{% trans 'Sorry, your request was rejected.' %}</h3>
+    {% endif %}
+    {% if user.userinfo.virifield == user.userinfo.UNDF %}
+        <h3>{% trans 'Hellow! To be able to publish your ads for free, you must go through the reality check procedure of your personality.' %}</h3>
+    {% endif %}
 
 {% endblock %}
 

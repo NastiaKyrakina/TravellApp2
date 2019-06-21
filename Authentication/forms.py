@@ -96,7 +96,7 @@ class InformationForm(forms.ModelForm):
 
     class Meta:
         model = UserInfo
-        exclude = ['user', 'registration', 'last_visit']
+        exclude = ['user', 'registration', 'last_visit', 'virifield']
 
         GENDER_SELECT = (
             (0, 'male'),

@@ -1,211 +1,211 @@
 {% load i18n %}
-<form class="house-form form-group col-lg-8 col-sm-12" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
+<div class="d-flex justify-content-center">
+    <form class="block house-form form-group col-lg-8 col-md-12 px-2" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
 
-    <div class="house-edit-header block block-header">
-        <h4 class="pl-3 mb-1">
-            {% if is_creating %}
-                {% trans "Сreate" %}
-            {% else %}
-                {% trans "Edit" %}
-            {% endif %}
-
-            {% trans 'announcement' %}
-
-        </h4>
-    </div> <!-- house-edit-header -->
-
-    <div class="house-edit-body block p-3">
-        {% for error in form_search.non_field_errors %}
-            <div class="alert alert-danger pl-2 p-0">
-                <small>
-                    {{ error }}
-                </small>
-            </div>
-        {% endfor %}
-
-        {% for error in form_house.title.errors %}
-            <div class="alert alert-danger pl-2 p-0">
-                <small>
-                    {{ error }}
-                </small>
-            </div>
-        {% endfor %}
-
-
-        <label class="pl-2 mb-0" for="id_title">{% trans 'Title' %}</label>
-        {{ form_house.title }}
-
-        <!--Error messages-->
-        {% for error in form_house.country.errors %}
-            <div class="alert alert-danger pl-2 p-0">
-                <small>
-                    {{ error }}
-                </small>
-            </div>
-        {% endfor %}
-        {% for error in form_house.city.errors %}
-            <div class="alert alert-danger pl-2 p-0">
-                <small>
-                    {{ error }}
-                </small>
-            </div>
-        {% endfor %}
-        <!--End-->
-
-        <div class="row">
-            <div class="col-6">
-                <label class="pl-2 mb-0" id="id_country">{% trans 'Country' %}</label>
-                {{ form_house.country }}
-            </div>
-            <datalist id="countries"></datalist>
-            <div class="col-6">
-                <label class="pl-2 mb-0" for="id_city">{% trans 'City' %}</label>
-                {{ form_house.city }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div hidden class="alert alert-danger pl-2 p-0 js-country-error">
-                    <small>{% trans "Please, select a valid country" %}</small>
-                </div>
-            </div>
-            <div class="col-6">
-                <div hidden class="alert alert-danger pl-2 p-0 js-city-error">
-                    <small>{% trans "Please, don't mix alphabets" %}</small>
-                </div>
-            </div>
-        </div>
-
-        <!--Error messages-->
-        {% for error in form_house.address.errors %}
-            <div class="ErrorMessage">{{ error }}</div>
-        {% endfor %}
-        <!--End-->
-
-        <label class="pl-2 mb-0" for="id_address">{% trans 'Address' %}</label>
-        {{ form_house.address }}
-        <div hidden class="alert alert-danger pl-2 p-0 js-address-error">
-            <small>{% trans "Uncorrect Address. Pleace, enter address by pattern: " %}
-                <span id="address-pattern"></span>
-            </small>
-        </div>
-
-        <!--Error messages-->
-        {% for error in form_house.type.errors %}
-            <div class="ErrorMessage">{{ error }}</div>
-        {% endfor %}
-        {% for error in form_house.rooms.errors %}
-            <div class="ErrorMessage">{{ error }}</div>
-        {% endfor %}
-        {% for error in form_house.sleeper.errors %}
-            <div class="ErrorMessage">{{ error }}</div>
-        {% endfor %}
-        <!--End-->
-        <div class="row">
-
-            <div class="col-4">
-                {{ form_house.type.errors }}
-                <label class="pl-2 mb-0" for="id_type">{% trans 'Type of house' %}</label>
-                {{ form_house.type }}
-            </div>
-            <div class="col-4">
-
-                <label class="pl-2 mb-0" for="id_rooms">{% trans 'Rooms' %}</label>
-                {{ form_house.rooms }}
-            </div>
-            <div class="col-4">
-                {{ form_house.sleeper.errors }}
-                <label class="pl- mb-0" for="id_sleeper">{% trans 'Sleeper place' %}</label>
-                {{ form_house.sleeper }}
-            </div>
-        </div>
-
-        <div class="row align-items-center justify-content-between">
-            <div class="col-5">
-                {{ form_house.price.errors }}
-                <label class="pl-2 mb-0" for="id_price">{% trans 'Rental price per day' %}</label>
-                <div class="input-group mb-2 ">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                    </div>
-                    {{ form_house.price }}
-                </div>
-            </div>
-
-            {% if not is_creating %}
-            <div class="custom-checkbox col-5">
-                {{ form_house.activity }}
-                <label class="custom-control-label" for="id_activity">{% trans 'Active' %}</label>
-            </div>
-            {% endif %}
-
-        </div>
-
-        <!--Error messages-->
-        {% for error in form_house.about.errors %}
-            <div class="ErrorMessage">{{ error }}</div>
-        {% endfor %}
-        <!--End-->
-
-        <label class="pl-2 mb-0" for="id_about">{% trans 'About' %}*</label>
-        {{ form_house.about }}
-
-        <div hidden class="alert alert-danger pl-2 p-0 js-about-error">
-            <small>{% trans "Please, enter at least 100 symbols" %}</small>
-        </div>
-
-        <div class="mb-4 text-info">
-            <small>
-            <span class="info-about">
-                {% trans '*the description must contain at least 100 symbols' %}
-            </span>
-                <span class="character-counter">
-                (<b id="counter">100</b> {% trans 'symbols left' %}...)
-            </span>
-                <span class="text-success sucs-show">
-                ({% trans 'implemented' %})
-            </span>
-            </small>
-        </div>
-
-
-        <!--Error messages-->
-        {% for error in form_photo.image.errors %}
-            <div class="ErrorMessage">{{ error }}</div>
-        {% endfor %}
-        <!--End-->
-
-        <div class="row">
-            {{ form_photo.image.errors }}
-            <div class="file-upload col-3 pr-1">
-                {{ form_photo.image }}
-                {{ form_photo.image_file }}
-                <label class="btn m-0 btn-warning" for="id_image">{% trans 'Set images' %}</label>
-            </div>
-
-            <div id="house-images-board" class="col-9 pl-1">
-                {% if not is_creating %}
-                    {% for image in house.get_images %}
-                        <img src="{{ image.image.url }}" class="house-image img-fluid m-1">
-                    {% endfor %}
+        <div class="house-edit-header">
+            <h4 class="pl-3 mb-1">
+                {% if is_creating %}
+                    {% trans "Сreate" %}
+                {% else %}
+                    {% trans "Edit" %}
                 {% endif %}
+
+                {% trans 'announcement' %}
+            </h4>
+        </div> <!-- house-edit-header -->
+        <hr class="horizontal-line my-2">
+        <div class="house-edit-body">
+            {% for error in form_search.non_field_errors %}
+                <div class="alert alert-danger pl-2 p-0">
+                    <small>
+                        {{ error }}
+                    </small>
+                </div>
+            {% endfor %}
+
+            {% for error in form_house.title.errors %}
+                <div class="alert alert-danger pl-2 p-0">
+                    <small>
+                        {{ error }}
+                    </small>
+                </div>
+            {% endfor %}
+
+
+            <label class="pl-2 mb-0" for="id_title">{% trans 'Title' %}</label>
+            {{ form_house.title }}
+
+            <!--Error messages-->
+            {% for error in form_house.country.errors %}
+                <div class="alert alert-danger pl-2 p-0">
+                    <small>
+                        {{ error }}
+                    </small>
+                </div>
+            {% endfor %}
+            {% for error in form_house.city.errors %}
+                <div class="alert alert-danger pl-2 p-0">
+                    <small>
+                        {{ error }}
+                    </small>
+                </div>
+            {% endfor %}
+            <!--End-->
+
+            <div class="row">
+                <div class="col-6">
+                    <label class="pl-2 mb-0" id="id_country">{% trans 'Country' %}</label>
+                    {{ form_house.country }}
+                </div>
+                <datalist id="countries"></datalist>
+                <div class="col-6">
+                    <label class="pl-2 mb-0" for="id_city">{% trans 'City' %}</label>
+                    {{ form_house.city }}
+                </div>
             </div>
+            <div class="row">
+                <div class="col-6">
+                    <div hidden class="alert alert-danger pl-2 p-0 js-country-error">
+                        <small>{% trans "Please, select a valid country" %}</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div hidden class="alert alert-danger pl-2 p-0 js-city-error">
+                        <small>{% trans "Please, don't mix alphabets" %}</small>
+                    </div>
+                </div>
+            </div>
+
+            <!--Error messages-->
+            {% for error in form_house.address.errors %}
+                <div class="ErrorMessage">{{ error }}</div>
+            {% endfor %}
+            <!--End-->
+
+            <label class="pl-2 mb-0" for="id_address">{% trans 'Address' %}</label>
+            {{ form_house.address }}
+            <div hidden class="alert alert-danger pl-2 p-0 js-address-error">
+                <small>{% trans "Uncorrect Address. Pleace, enter address by pattern: " %}
+                    <span id="address-pattern"></span>
+                </small>
+            </div>
+
+            <!--Error messages-->
+            {% for error in form_house.type.errors %}
+                <div class="ErrorMessage">{{ error }}</div>
+            {% endfor %}
+            {% for error in form_house.rooms.errors %}
+                <div class="ErrorMessage">{{ error }}</div>
+            {% endfor %}
+            {% for error in form_house.sleeper.errors %}
+                <div class="ErrorMessage">{{ error }}</div>
+            {% endfor %}
+            <!--End-->
+            <div class="row">
+
+                <div class="col-4">
+                    {{ form_house.type.errors }}
+                    <label class="pl-2 mb-0" for="id_type">{% trans 'Type of house' %}</label>
+                    {{ form_house.type }}
+                </div>
+                <div class="col-4">
+
+                    <label class="pl-2 mb-0" for="id_rooms">{% trans 'Rooms' %}</label>
+                    {{ form_house.rooms }}
+                </div>
+                <div class="col-4">
+                    {{ form_house.sleeper.errors }}
+                    <label class="pl- mb-0" for="id_sleeper">{% trans 'Sleeper place' %}</label>
+                    {{ form_house.sleeper }}
+                </div>
+            </div>
+
+            <div class="row align-items-center justify-content-between">
+                <div class="col-6 col-lg-4">
+                    {{ form_house.price.errors }}
+                    <label class="pl-2 mb-0" for="id_price">{% trans 'Rental price per day' %}</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        {{ form_house.price }}
+                    </div>
+                </div>
+
+                {% if not is_creating %}
+                    <div class="custom-checkbox col-6 col-lg-4">
+                        {{ form_house.activity }}
+                        <label class="custom-control-label" for="id_activity">{% trans 'Active' %}</label>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <!--Error messages-->
+            {% for error in form_house.about.errors %}
+                <div class="ErrorMessage">{{ error }}</div>
+            {% endfor %}
+            <!--End-->
+
+            <label class="pl-2 mb-0" for="id_about">{% trans 'About' %}*</label>
+            {{ form_house.about }}
+
+            <div hidden class="alert alert-danger pl-2 p-0 js-about-error">
+                <small>{% trans "Please, enter at least 100 symbols" %}</small>
+            </div>
+
+            <div class="mb-4 text-info">
+                <small>
+                <span class="info-about">
+                    {% trans '*the description must contain at least 100 symbols' %}
+                </span>
+                    <span class="character-counter">
+                    (<b id="counter">100</b> {% trans 'symbols left' %}...)
+                </span>
+                    <span class="text-success sucs-show">
+                    ({% trans 'implemented' %})
+                </span>
+                </small>
+            </div>
+
+
+            <!--Error messages-->
+            {% for error in form_photo.image.errors %}
+                <div class="ErrorMessage">{{ error }}</div>
+            {% endfor %}
+            <!--End-->
+
+            <div class="row">
+                {{ form_photo.image.errors }}
+                <div class="file-upload col-3 pr-1">
+                    {{ form_photo.image }}
+                    {{ form_photo.image_file }}
+                    <label class="btn m-0 btn-warning" for="id_image">{% trans 'Set images' %}</label>
+                </div>
+
+                <div id="house-images-board" class="col-9 pl-1">
+                    {% if not is_creating %}
+                        {% for image in house.get_images %}
+                            <img src="{{ image.image.url }}" class="house-image img-fluid m-1">
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
         </div>
+        <hr class="horizontal-line my-2">
+        <div class="house-edit-footer d-flex justify-content-center">
+            {% if is_creating %}
+                <input type="submit" class="btn btn-primary py-1" value="{% trans 'Create' %}"/>
+            {% else %}
+                <input type="submit" class="btn btn-warning py-1" value="{% trans 'Save' %}"/>
+            {% endif %}
+        </div> <!-- house-edit-footer -->
 
-    </div>
-
-    <div class="house-edit-footer block block-footer d-flex justify-content-center">
-        {% if is_creating %}
-            <input type="submit" class="btn btn-primary py-1" value="{% trans 'Create' %}"/>
-        {% else %}
-            <input type="submit" class="btn btn-warning py-1" value="{% trans 'Save' %}"/>
-        {% endif %}
-    </div> <!-- house-edit-footer -->
-
-    {% for error in errors_type %}
-        {{ error }} <br/>
-    {% endfor %}
-</form>
-
+        {% for error in errors_type %}
+            {{ error }} <br/>
+        {% endfor %}
+    </form>
+</div>
 

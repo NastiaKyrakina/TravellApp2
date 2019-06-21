@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ user.username }} | Verification{% endblock %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-center">
+
+        <form class="block col-12 col-md-8 p-2" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h4 class="mb-3">{% trans 'Verification page' %}</h4>
+            <hr class="horizontal-line my-2">
+            <label class="pl-2 mb-0" for="id_message"> {% trans 'Additional information for administrators' %}</label>
+            {{ form_verification_send.message }}
+            {% for error in form_verification_send.message.errors %}
+                <div class="alert alert-danger pl-2 p-0">
+                    <small>{{ error }}</small>
+                </div>
+            {% endfor %}
+            <label class="pl-2 mb-0" for="inputGroupImage1"> {% trans 'The front side of the passport' %}</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupImage1">Upload</span>
+                </div>
+                <div class="custom-file">
+                    {{ form_verification_send.image1 }}
+                    <label class="custom-file-label" for="inputGroupImage1">Choose file</label>
+                </div>
+            </div>
+            {% for error in form_verification_send.image1.errors %}
+                <div class="alert alert-danger pl-2 p-0">
+                    <small>{{ error }}</small>
+                </div>
+            {% endfor %}
+            <label class="pl-2 mb-0" for="inputGroupImage2"> {% trans 'Reverse side of the passport' %}</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupImage2">Upload</span>
+                </div>
+                <div class="custom-file">
+                    {{ form_verification_send.image2 }}
+                    <label class="custom-file-label" for="inputGroupImage2">Choose file</label>
+                </div>
+            </div>
+            {% for error in form_verification_send.image2.errors %}
+                <div class="alert alert-danger pl-2 p-0">
+                    <small>{{ error }}</small>
+                </div>
+            {% endfor %}
+            <hr class="horizontal-line my-2">
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary py-1" type="submit">{% trans 'Submit' %}</button>
+            </div> <!-- diary-edit-footer -->
+        </form>
+
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+
+    {% load staticfiles %}
+    {#  Script*  #}
+
+{% endblock %}
