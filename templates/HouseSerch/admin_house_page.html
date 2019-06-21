@@ -1,69 +1,160 @@
 {% load i18n %}
 
-<h2 class="m-2"><strong>{% trans "List of applications for booking" %}</strong></h2>
+<h1 class="m-2">
+    <strong>
+        {% trans "Adv for" %} {{ house }}
+    </strong>
+</h1>
 
-{% for book in booking %}
-    {% include 'HouseSerch/includes/booking_card.html' %}
-{% endfor %}
 <div class="block">
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <h2 class="m-2 card-header"><strong>{% trans "List of applications for booking" %}</strong></h2>
+
+    <canvas id="myChart" width="400" height="300"></canvas>
+    <canvas id="countChart" width="400" height="300"></canvas>
+    <div class="d-flex justify-content-between">
+        <button id="c-val" class="btn btn-info ml-3">{% trans "Raiting dynamic" %}</button>
+        <button id="c-count" class="btn btn-success ml-3">{% trans "User count" %}</button>
+    </div>
+
+</div>
+
+<div class="booking-list">
+    <h2 class="m-2 card-header"><strong>{% trans "List of applications for booking" %}</strong></h2>
+
+    {% for book in booking %}
+        {% include 'HouseSerch/includes/booking_card.html' %}
+        <hr>
+    {% endfor %}
 </div>
 
 {% load l10n %}
 <script>
     (function f() {
-        var ctx = document.getElementById('myChart').getContext('2d');
+        let chartVal = document.getElementById('myChart');
+        let chartCount = document.getElementById('countChart');
+        chartCount.hidden = true;
+        $('#c-val').on('click', () => {
+            chartCount.hidden = true;
+            chartVal.hidden = false;
+        });
+        $('#c-count').on('click', () => {
+            chartCount.hidden = false;
+            chartVal.hidden = true;
+        });
+        var ctx = chartVal.getContext('2d');
+        var ctxCount = chartCount.getContext('2d');
+
+        let curDate = new Date();
         let data = [];
-
-        {% for rate in rates_val %}
-            {% localize off %}
+        let dataCount = [];
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+        months = months.slice(0, curDate.getMonth());
+        {% localize off %}
+            {% for rate in rates_val %}
                 data.push({{ rate}});
-            {% endlocalize %}
+            {% endfor %}
+            {% for count in rate_count %}
+                dataCount.push({{ count}});
+            {% endfor %}
+        {% endlocalize %}
 
-        {% endfor %}
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept',
-                    'Oct',
-                    'Nov',
-                    'Dec'],
-                datasets: [{
-                    label: 'Dynamics of housing rating changes',
-                    data: data,
-                    backgroundColor: [
-                        'rgba(255,116,65,0.2)',
-                        'rgba(206,107,255,0.4)',
-                        'rgba(92,255,108,0.4)',
-                        'rgba(255,141,109,0.4)',
-                        'rgba(255,104,140,0.4)',
-                        'rgba(255,102,233,0.4)',
-                        'rgba(144,122,255,0.4)',
-                        'rgba(118,143,255,0.4)',
-                        'rgba(110,255,231,0.4)',
-                        'rgba(107,255,143,0.4)',
-                        'rgba(252,242,255,0.4)',
-                        'rgba(255,76,155,0.4)',
-                        'rgba(66,255,235,0.4)',
-                    ],
-                    borderColor: [
-                        'rgb(255,167,75)',
-                    ],
-                    borderWidth: 1
-                }]
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Dynamics of housing rating changes',
+                        data: data,
+                        backgroundColor: [
+                            'rgba(255,116,65,0.2)',
+                            'rgba(206,107,255,0.4)',
+                            'rgba(92,255,108,0.4)',
+                            'rgba(255,141,109,0.4)',
+                            'rgba(255,104,140,0.4)',
+                            'rgba(255,102,233,0.4)',
+                            'rgba(144,122,255,0.4)',
+                            'rgba(118,143,255,0.4)',
+                            'rgba(110,255,231,0.4)',
+                            'rgba(107,255,143,0.4)',
+                            'rgba(252,242,255,0.4)',
+                            'rgba(255,76,155,0.4)',
+                            'rgba(66,255,235,0.4)',
+                        ],
+                        borderColor: [
+                            'rgb(255,167,75)',
+                        ],
+                        borderWidth: 1
+                    }],
+
             },
             options: {
                 scales: {
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            max: 6
                         }
                     }],
                     xAxes: []
+                },
+                legend: {
+                    display: true,
+                    labels: {
+                        fontColor: 'rgb(255, 99, 132)'
+                    }
                 }
             }
         });
+        var countChart = new Chart(ctxCount, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Dynamics of housing rating changes',
+                        data: dataCount,
+                        backgroundColor: [
+                            'rgba(26,56,255,0.2)',
+                            'rgba(206,107,255,0.4)',
+                            'rgba(92,255,108,0.4)',
+                            'rgba(255,141,109,0.4)',
+                            'rgba(255,104,140,0.4)',
+                            'rgba(255,102,233,0.4)',
+                            'rgba(144,122,255,0.4)',
+                            'rgba(118,143,255,0.4)',
+                            'rgba(110,255,231,0.4)',
+                            'rgba(107,255,143,0.4)',
+                            'rgba(252,242,255,0.4)',
+                            'rgba(255,76,155,0.4)',
+                            'rgba(66,255,235,0.4)',
+                        ],
+                        borderColor: [
+                            'rgb(10,28,255)',
+                        ],
+                        borderWidth: 1
+                    },
+                ],
+
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1,
+                        }
+                    }],
+                    xAxes: []
+                },
+                legend: {
+                    display: true,
+                    labels: {
+                        fontColor: 'rgb(255, 99, 132)'
+                    }
+                }
+            }
+        });
+
     })();
 
 </script>

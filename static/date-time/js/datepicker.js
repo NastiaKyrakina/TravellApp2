@@ -73,7 +73,7 @@
                 maxMinutes: 59,
                 hoursStep: 1,
                 minutesStep: 1,
-
+                canSelect: true,
                 // events
                 onSelect: '',
                 onActive: '',
@@ -123,7 +123,7 @@
             if (this.opts.altField) {
                 this.$altField = typeof this.opts.altField == 'string' ? $(this.opts.altField) : this.opts.altField;
             }
-
+            this.canSelect = true;
             this.inited = false;
             this.visible = false;
             this.silent = false; // Need to prevent unnecessary rendering
@@ -1280,7 +1280,12 @@
                     date.setHours(this.timepicker.hours);
                     date.setMinutes(this.timepicker.minutes);
                 }
-                this.selectDate(date);
+                console.log(this.canSelect);
+                if (this.canSelect) {
+                    console.log('select');
+
+                    this.selectDate(date);
+                }
             },
 
             set focused(val) {

@@ -42,11 +42,9 @@ function LoadBookingForm() {
     $('.open-book-form').on('click', () => {
 
         var house_primary_key = $('[id^=house-element-]').attr('id').split('-')[2];
-        $('#booking-add').load('/house/booking/create', function () {
+        $('#booking-add').load('/house/booking/create/' + house_primary_key, function () {
             BookingSend(house_primary_key);
         });
-
-
         return false;
     });
 }

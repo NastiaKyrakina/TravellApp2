@@ -1,10 +1,10 @@
 {% load i18n %}
-
+{{ house.id }}
 <div class="d-flex justify-content-center">
     <form class="block booking-form form-group col-lg-12 col-md-12 px-2"
           enctype="multipart/form-data"
           id='booking-form'
-          action="{% url 'house.booking.create' %}" method="post">
+          action="{% url 'booking_create' house.id %}" method="post">
         {% csrf_token %}
         <div class="booking-edit-header">
             <h4 class="pl-3 mb-1">
@@ -112,43 +112,45 @@
     {#console.log( $('[data-date="27"][data-month="6"][data-year="2019"]'));#}
     {# $('[data-date="27"][data-month="5"][data-year="2019"]')#}
     {#     .css('color', 'red');#}
-
-    var eventDates = [8, 12, 13, 14, 15, 22, 23],
+    var eventDates = [];
+    var eventDates1 = [],
         $picker = $('.datepicker-here'),
         $content = $('#custom-cells-events'),
         sentences = ['ss', 'sss', 'ssss', 'ssss'];
 
+    {% for date in bookingDate %}
+        eventDates1.push(new Date({{date.yearfrom}}, {{date.monthfrom}}, {{date.dayfrom}}));
+        eventDates1.push(new Date({{date.yearto}}, {{date.monthto}}, {{date.dayto}}));
+    {% endfor %}
     $picker.datepicker({
         language: 'en',
+        minDate: new Date(),
+        disableNavWhenOutOfRange: true,
         onRenderCell: function (date, cellType) {
-            var currentDate = date.getDate();
+            var currentDate = date;
             // Add extra element, if `eventDates` contains `currentDate`
-            if (cellType == 'day' && eventDates.indexOf(currentDate) != -1) {
+            let alrBook = false;
+            for (let i = 0; i < eventDates1.length - 1; i += 2) {
+                if (currentDate >= eventDates1[i] &&
+                    currentDate <= eventDates1[i + 1]) {
+                    alrBook = true;
+                    break;
+                }
+            }
+            if (cellType == 'day' && alrBook) {
                 let span = document.createElement('div');
                 span.classList.add('unactive');
-                span.innerText = currentDate;
+                span.innerText = currentDate.getDate();
                 return {
                     html: span.outerHTML,
+                    disabled: true
+
                 }
             }
         },
         onActive: function () {
             return true;
         },
-
-        onSelect: function onSelect(fd, date) {
-
-            var title = '', content = '';
-            console.log(fd);
-            date = new Date(date);
-            // If date with event is selected, show it
-            if (date && eventDates.indexOf(date.getDate()) != -1) {
-                title = fd;
-                content = sentences[Math.floor(Math.random() * eventDates.length)];
-            }
-            $('strong', $content).html(title);
-            $('p', $content).html(content);
-        }
     });
 
 

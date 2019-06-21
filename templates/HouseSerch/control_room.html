@@ -30,15 +30,15 @@
         <div class="main-area col-8">
             <div class="row justify-content-center h-100 align-content-center">
                 <div class="font-weight-bold center-inf">
-                    {% load staticfiles %}
-                    <img src="{% static 'images/DefaultHouse.png' %}"
-                         class="card-img p-1 align-self-center"/>
+
                     {% if houses %}
                         {% trans "Choose adverb for search" %}
                     {% else %}
                         {% trans "You have any adverb" %}
                     {% endif %}
-
+                    {% load staticfiles %}
+                    <img src="{% static 'images/DefaultHouse.png' %}"
+                         class="card-img p-1 align-self-center"/>
 
                 </div>
             </div>

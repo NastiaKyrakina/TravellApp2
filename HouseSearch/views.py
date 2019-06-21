@@ -42,11 +42,24 @@ def rate_create(request):
     })
 
 
-def booking_create(request):
+def booking_create(request, house_id):
     user = UserExt.objects.get(pk=request.user.pk)
+    house = get_object_or_404(House, id=house_id)
+    booking = house.booking_set.all().order_by('start');
+    bookingDate = []
+    for book in booking:
+        date = {}
+        dateS = book.start.split('-')
+        dateF = book.end.split('-')
+        date['dayfrom'] = dateS[2]
+        date['monthfrom'] = str(int(dateS[1]) - 1)
+        date['yearfrom'] = dateS[0]
+        date['dayto'] = dateF[2]
+        date['monthto'] = str(int(dateF[1]) - 1)
+        date['yearto'] = dateF[0]
+        bookingDate.append(date)
 
     if request.method == 'POST' and 'house' in request.POST:
-        house = get_object_or_404(House, id=request.POST['house'])
         form_booking = BookingForm(request.POST)
         if form_booking.is_valid():
             book = form_booking.save(user, house)
@@ -55,6 +68,7 @@ def booking_create(request):
                               'HouseSerch/create_booking_form.html',
                               {
                                   'book': book,
+                                  'house': house
                               }
                               )
             return HttpResponseRedirect('house/%s/' % house.pk)
@@ -64,6 +78,9 @@ def booking_create(request):
     return render(request, 'HouseSerch/create_booking_form.html', {
         'form_booking': form_booking,
         'is_creating': True,
+        'bookingDate': bookingDate,
+        'house': house
+
     })
 
 def main_search(request):
@@ -142,9 +159,10 @@ def house_page(request, house_id):
     contact_form = ChatMember(initial={'members': house.owner.username})
 
     try:
-        book = Booking.objects.get(user=request.user.id)
+        book = Booking.objects.filter(user=request.user.id, house=house).first();
     except Booking.DoesNotExist:
         book = ''
+    booking = house.booking_set.all().order_by('start')
 
     data = {
         'type': type,
@@ -152,7 +170,8 @@ def house_page(request, house_id):
         'is_owner': is_owner,
         'raiting': raiting['value__avg'],
         'members_form': contact_form,
-        'book': book
+        'book': book,
+        'booking': booking,
     }
     return render(request, 'HouseSerch/house_page.html', data)
 
@@ -164,25 +183,28 @@ def house_admin(request, house_id):
     rating = house.rate_set.filter(date_public__year=2018)
     booking = house.booking_set.all().order_by('start')
     rate_val = []
+    rate_count = []
     counter = 0
     sum = 0
     all = 0
-    for i in range(1, 13):
+    curMonth = datetime.now().month;
+    for i in range(1, curMonth + 1):
         rate = rating.filter(date_public__month=str(i))
         value = rate.aggregate(Avg('value'))
-        print(value['value__avg'])
         count = rate.count()
         if value['value__avg']:
             sum = sum + value['value__avg']
             counter = counter + count
             all = sum / counter
         rate_val.append(all)
+        rate_count.append(count)
 
     return render(request,
                   'HouseSerch/admin_house_page.html', {
                       'house': house,
                       'rating': rating,
                       'rates_val': rate_val,
+                      'rate_count': rate_count,
                       'booking': booking,
                   })
 

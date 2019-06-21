@@ -24,7 +24,9 @@
             <p class="m-1"><strong>{% trans 'Phone' %}:</strong> +380 {{ book.phone_num }}</p></p>
         </div>
         <div class="col-12 col-lg-12 mt-2">
-            <p class="m-1"><strong>{% trans 'Comment' %}:</strong> {{ book.comment }}</p>
+            {% if book.comment %}
+                <p class="m-1"><strong>{% trans 'Comment' %}:</strong> {{ book.comment }}</p>
+            {% endif %}
         </div>
     </div>
     <hr class="horizontal-line my-2">

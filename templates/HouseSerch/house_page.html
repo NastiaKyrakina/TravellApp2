@@ -125,14 +125,12 @@
                 {% if book %}
                     {% trans 'You booked this from' %} {{ book.start }}
                     {% trans 'to' %} {{ book.end }}
-                {% else %}
-                    {% if house.activity %}
-                        <button type="button"
-                                class="btn btn-info ml-2 open-book-form open btn-lg">
-                            {% trans 'Book now' %}
-                        </button>
-                    {% endif %}
-
+                {% endif %}
+                {% if house.activity %}
+                    <button type="button"
+                            class="btn btn-info ml-2 open-book-form open btn-lg">
+                        {% trans 'Book now' %}
+                    </button>
                 {% endif %}
             </div>
         {% endif %}
